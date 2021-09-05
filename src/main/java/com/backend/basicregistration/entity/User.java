@@ -3,6 +3,7 @@ package com.backend.basicregistration.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
@@ -12,10 +13,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private LocalDate birthday;
