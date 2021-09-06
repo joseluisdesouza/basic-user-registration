@@ -31,15 +31,10 @@ public class UserService {
         return list.stream().map(UserDTO::new).collect(Collectors.toList());
     }
 
-    public User findById(final Long userId) {
-        return userRepository.findById(userId).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
-    }
-
     public UserDTO update(UserDTO dto) {
         User user = new User();
         convertorDtoToEntity(dto, user);
-        userRepository.save(findById(dto.getId())
+        userRepository.save(getUserById(dto.getId())
                 .withName(dto.getName())
                 .withBirthday(dto.getBirthday())
                 .withPhoto(dto.getPhoto()));
@@ -47,7 +42,13 @@ public class UserService {
     }
 
     public void delete(Long userId) {
+        getUserById(userId);
         userRepository.deleteById(userId);
+    }
+
+    private User getUserById(final Long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
     }
 
     private void convertorDtoToEntity(UserDTO dto, User user) {
