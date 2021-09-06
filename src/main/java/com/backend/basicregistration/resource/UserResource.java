@@ -4,6 +4,7 @@ import com.backend.basicregistration.dto.UserDTO;
 import com.backend.basicregistration.entity.User;
 import com.backend.basicregistration.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,23 +17,18 @@ public class UserResource {
     private final UserService userService;
 
     @PostMapping
-    public UserDTO create(@RequestBody UserDTO user) {
+    public UserDTO create(@Validated @RequestBody UserDTO user) {
         return userService.create(user);
     }
 
     @PostMapping("/{id}")
-    public UserDTO update(UserDTO user) {
+    public UserDTO update(@Validated UserDTO user) {
         return userService.update(user);
     }
 
     @GetMapping
     public List<UserDTO> findAll() {
         return userService.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public User findById(@PathVariable Long userId) {
-        return userService.findById(userId);
     }
 
     @DeleteMapping("/{id}")
