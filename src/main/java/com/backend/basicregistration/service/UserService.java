@@ -36,13 +36,13 @@ public class UserService {
         return (Page<UserDTO>) pageUser.stream().map(UserDTO::new).collect(Collectors.toList());
     }
 
-    public UserDTO update(UserDTO dto) {
+    public UserDTO update(UserDTO userDTO) {
         User user = new User();
-        convertorDtoToEntity(dto, user);
-        userRepository.save(getUserById(dto.getId())
-                .withName(dto.getName())
-                .withBirthday(dto.getBirthday())
-                .withPhoto(dto.getPhoto()));
+        convertorDtoToEntity(userDTO, user);
+        userRepository.save(getUserById(userDTO.getId())
+                .withName(userDTO.getName())
+                .withBirthday(userDTO.getBirthday())
+                .withPhoto(userDTO.getPhoto()));
         return new UserDTO(userRepository.save(user));
     }
 
@@ -63,10 +63,10 @@ public class UserService {
                 new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
     }
 
-    private void convertorDtoToEntity(UserDTO dto, User user) {
-        user.withId(dto.getId())
-                .withName(dto.getName())
-                .withBirthday(dto.getBirthday())
-                .withPhoto(dto.getPhoto());
+    private void convertorDtoToEntity(UserDTO userDTO, User user) {
+        user.withId(userDTO.getId())
+                .withName(userDTO.getName())
+                .withBirthday(userDTO.getBirthday())
+                .withPhoto(userDTO.getPhoto());
     }
 }

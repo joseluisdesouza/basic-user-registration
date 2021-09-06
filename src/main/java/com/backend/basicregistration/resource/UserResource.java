@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -23,13 +21,13 @@ public class UserResource {
     private final UserService userService;
 
     @PostMapping
-    public UserDTO create(@Validated @RequestBody UserDTO user) {
-        return userService.create(user);
+    public UserDTO create(@Validated @RequestBody UserDTO userDTO) {
+        return userService.create(userDTO);
     }
 
     @PostMapping("/{id}")
-    public UserDTO update(@Validated UserDTO user) {
-        return userService.update(user);
+    public UserDTO update(@Validated UserDTO userDTO) {
+        return userService.update(userDTO);
     }
 
     @GetMapping
