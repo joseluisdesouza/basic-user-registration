@@ -1,6 +1,7 @@
 package com.backend.basicregistration.dto;
 
 import com.backend.basicregistration.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -15,17 +16,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserDTO {
 
-    @NotNull @Positive
+    @Positive
     private Long id;
     @NotNull @NotEmpty
     private String name;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthday;
-    private String photo;
 
     public UserDTO(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.birthday = user.getBirthday();
-        this.photo = user.getPhoto();
     }
 }
