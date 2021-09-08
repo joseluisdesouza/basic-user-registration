@@ -1,6 +1,7 @@
 package com.backend.basicregistration.resource;
 
 import com.backend.basicregistration.dto.UserDTO;
+import com.backend.basicregistration.entity.User;
 import com.backend.basicregistration.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Optional;
 
 
@@ -36,11 +36,11 @@ public class UserResource {
     @GetMapping
     public Page<UserDTO> findAll(@RequestParam(required = false) Optional<Long> id,
                                  @RequestParam(required = false) Optional<String> name,
-                                 @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                 @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
-                                 @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
-                                 @RequestParam(value = "direction", defaultValue = "DESC") String direction) {
-        return userService.findAll(id, name, PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy));
+                                 @RequestParam(defaultValue = "0") Integer page,
+                                 @RequestParam(defaultValue = "10") Integer linesPerPage,
+                                 @RequestParam(defaultValue = "id") String orderBy,
+                                 @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
+        return userService.findAll(id, name, PageRequest.of(page, linesPerPage, Sort.by(direction, orderBy)));
     }
 
     @DeleteMapping("/{id}")

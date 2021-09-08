@@ -1,14 +1,19 @@
 package com.backend.basicregistration.service;
 
 import com.backend.basicregistration.repository.UserRepository;
+import com.backend.basicregistration.specification.UserSpecification;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 import static com.backend.basicregistration.creator.UserCreator.*;
@@ -35,12 +40,10 @@ public class UserTest {
 
     @Test
     void findAllPagedShouldReturnPage() {
-
-    }
-
-    @Test
-    void errorfindAllEmptyPagesShouldReturnPage() {
-
+        when(userRepository.findAll(any(UserSpecification.class), any(PageRequest.class))).thenReturn(new PageImpl<>(List.of(createUser())));
+        var page = userService.findAll(Optional.of(1L), Optional.of("name"), PageRequest.of(0, 2));
+        assertEquals(1L, page.getSize());
+        assertEquals(createUserDTO(), page.getContent().get(0));
     }
 
     @Test
