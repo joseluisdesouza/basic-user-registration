@@ -18,6 +18,8 @@ import lombok.Builder;
 @Builder
 public class UserSpecification implements Specification<User>{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Builder.Default
     private final transient Optional<Long> id = Optional.empty();
 	
